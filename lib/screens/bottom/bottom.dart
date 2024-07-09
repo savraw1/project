@@ -5,6 +5,7 @@ import 'package:project/screens/admin/admin1.dart';
 import 'package:project/screens/admin/admin2.dart';
 import 'package:project/screens/admin/admin3.dart';
 import 'package:project/screens/admin/admin4.dart';
+import 'package:project/screens/admin/admin5.dart';
 
 class Bot1 extends StatefulWidget {
   const Bot1({super.key});
@@ -29,10 +30,10 @@ class _Bot1State extends State<Bot1> {
       throw Exception("No user logged in");
     }
 
-    DocumentSnapshot data = await FirebaseFirestore.instance.collection("Users").doc(user.uid).get();
+    DocumentSnapshot data = await FirebaseFirestore.instance.collection("Users").doc(user.email).get();
     if (data.exists) {
       return {
-        'documentId': user.uid,
+        'email' : data['email'],
         'username': data['username'],
         'phone': data['phone'],
       };
@@ -47,7 +48,7 @@ class _Bot1State extends State<Bot1> {
       future: _userDataFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return Center(child: CircularProgressIndicator(color: Colors.blue.shade900));
         } else if (snapshot.hasError) {
           return Center(child: Text("Error: ${snapshot.error}"));
         } else if (snapshot.hasData) {
@@ -56,29 +57,32 @@ class _Bot1State extends State<Bot1> {
             Admin1(),
             Admin2(),
             Admin3(),
-            Admin4(documentId: data['documentId']!, username: data['username']!, phone: data['phone']!)
+            Admin4(),
+            Admin5(
+              email: data['email']!,
+              username: data['username']!,
+              phone: data['phone']!,
+            )
           ];
 
           return Scaffold(
             body: pages[select],
             bottomNavigationBar: BottomNavigationBar(
-              selectedFontSize: 18,
-              unselectedFontSize: 18,
-              backgroundColor: Colors.black,
               currentIndex: select,
-              type: BottomNavigationBarType.fixed,
-              selectedItemColor: Colors.indigo,
-              unselectedItemColor: Colors.grey,
               onTap: (value) {
                 setState(() {
                   select = value;
                 });
               },
               items: [
-                BottomNavigationBarItem(icon: Icon(Icons.home, size: 30), label: "Home"),
-                BottomNavigationBarItem(icon: Icon(Icons.person, size: 30), label: "Users"),
-                BottomNavigationBarItem(icon: Icon(Icons.add, size: 30), label: "Add"),
-                BottomNavigationBarItem(icon: Icon(Icons.account_circle_outlined, size: 30), label: "Profile"),
+                BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+                BottomNavigationBarItem(icon: Icon(Icons.supervised_user_circle), label: "Users"),
+                BottomNavigationBarItem(icon: Transform(
+                    alignment: Alignment.center,
+                    transform: Matrix4.rotationY(3.14),
+                    child: Icon(Icons.messenger_outline)), label: "Message"),
+                BottomNavigationBarItem(icon: Icon(Icons.add), label: "Add"),
+                BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
               ],
             ),
           );

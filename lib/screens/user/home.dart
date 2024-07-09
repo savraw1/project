@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:project/screens/bottom/booktable.dart';
-import 'package:project/screens/bottom/bottom.dart';
 import 'package:project/screens/bottom/homedelivery.dart';
 
 class Home1 extends StatefulWidget {
@@ -14,20 +13,13 @@ class _Home1State extends State<Home1> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        leading: IconButton(onPressed: () {
-          Navigator.pop(context);
-        }, icon: Icon(Icons.arrow_back_ios_new_outlined,size: 30,color: Colors.indigo)),
-      ),
-      backgroundColor: Colors.black,
       body: Align(
         alignment: Alignment.center,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(height: 250),
-            Text("Welcome",style: TextStyle(color: Colors.white,fontSize: 30,fontWeight: FontWeight.bold)),
-            SizedBox(height: 25),
+            Text("Welcome to Hotel Transylvania",style: TextStyle(color: Colors.white,fontSize: 25,fontWeight: FontWeight.bold)),
+            SizedBox(height: 35),
             SizedBox(
                 height: 65,
                 width: 350,

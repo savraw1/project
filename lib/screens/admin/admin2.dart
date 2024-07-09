@@ -12,32 +12,32 @@ class _Admin2State extends State<Admin2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: Text("Registered users",
-            style: TextStyle(color: Colors.white, fontSize: 25)),
+        leading: Icon(Icons.supervised_user_circle,
+            size: 25, color: Colors.indigo),
+        title: Text("Registered users"),
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance.collection("Users").snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        builder:
+            (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) {
             return Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(color: Colors.blue.shade900),
             );
           }
           return ListView(
             children: snapshot.data!.docs.map((document) {
               Map<String, dynamic> data =
-              document.data() as Map<String, dynamic>;
+                  document.data() as Map<String, dynamic>;
               return Column(
                 children: [
-                  SizedBox(height: 15),
+                  SizedBox(height: 10),
                   Container(
-                    width: 425,
+                    width: MediaQuery.of(context).size.width * 0.925,
                     decoration: BoxDecoration(
-                        color: Colors.indigo,
-                        borderRadius: BorderRadius.circular(15)),
+                        color: Colors.white10,
+                        borderRadius: BorderRadius.circular(10)),
                     child: ListTile(
                       title: Text(data["email"],
                           style: TextStyle(
@@ -48,11 +48,11 @@ class _Admin2State extends State<Admin2> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text("Username: ${data["username"]}",
-                              style:
-                              TextStyle(color: Colors.white, fontSize: 18)),
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 18)),
                           Text("Phone: ${data["phone"]}",
-                              style:
-                              TextStyle(color: Colors.white, fontSize: 18)),
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 18)),
                         ],
                       ),
                       trailing: Row(
@@ -64,9 +64,14 @@ class _Admin2State extends State<Admin2> {
                                     context: context,
                                     builder: (BuildContext) {
                                       return AlertDialog(
-                                        title: Text("Confirm delete?"),
+                                        backgroundColor: Colors.black87,
+                                        title: Text("Confirm delete?",
+                                            style: TextStyle(
+                                                color: Colors.white)),
                                         content: Text(
-                                            "Are you sure you want to delete this user?"),
+                                            "Are you sure you want to delete this user?",
+                                            style: TextStyle(
+                                                color: Colors.white)),
                                         actions: [
                                           TextButton(
                                               onPressed: () {
@@ -82,11 +87,13 @@ class _Admin2State extends State<Admin2> {
                                                 Navigator.pop(context);
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(SnackBar(
-                                                  content: Text("User deleted"),
+                                                  content:
+                                                      Text("User deleted"),
                                                   action: SnackBarAction(
                                                     label: "Undo",
                                                     onPressed: () {
-                                                      FirebaseFirestore.instance
+                                                      FirebaseFirestore
+                                                          .instance
                                                           .collection("Users")
                                                           .doc(document.id)
                                                           .set(data);
@@ -94,7 +101,11 @@ class _Admin2State extends State<Admin2> {
                                                   ),
                                                 ));
                                               },
-                                              child: Text("Delete"))
+                                              child: Text(
+                                                "Delete",
+                                                style: TextStyle(
+                                                    color: Colors.red),
+                                              ))
                                         ],
                                       );
                                     });

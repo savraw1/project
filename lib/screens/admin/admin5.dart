@@ -7,23 +7,23 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import '../login.dart';
 
-class User3 extends StatefulWidget {
-  final String documentId;
+class Admin5 extends StatefulWidget {
+  final String email;
   final String username;
   final String phone;
 
-  const User3({
+  const Admin5({
     super.key,
-    required this.documentId,
+    required this.email,
     required this.username,
     required this.phone,
   });
 
   @override
-  State<User3> createState() => _User3State();
+  State<Admin5> createState() => _Admin5State();
 }
 
-class _User3State extends State<User3> {
+class _Admin5State extends State<Admin5> {
   late TextEditingController _usernameController;
   late TextEditingController _phoneController;
 
@@ -33,13 +33,6 @@ class _User3State extends State<User3> {
     _usernameController = TextEditingController(text: widget.username);
     _phoneController = TextEditingController(text: widget.phone);
     _getCurrentUser();
-  }
-
-  @override
-  void dispose() {
-    _usernameController.dispose();
-    _phoneController.dispose();
-    super.dispose();
   }
 
   File? _image;
@@ -87,7 +80,8 @@ class _User3State extends State<User3> {
     setState(() {
       _image = null;
       _profilepic = "";
-    });
+    }
+    );
     await FirebaseFirestore.instance
         .collection('Users')
         .doc(_currentUser!.email)
@@ -106,10 +100,8 @@ class _User3State extends State<User3> {
   }
 
   Future<void> _fetchUserData(String uid) async {
-    final DocumentSnapshot data = await FirebaseFirestore.instance
-        .collection("Users")
-        .doc(_currentUser!.email)
-        .get();
+    final DocumentSnapshot data =
+    await FirebaseFirestore.instance.collection("Users").doc(_currentUser!.email).get();
     if (data.exists) {
       setState(() {
         _username = data['username'];
@@ -176,7 +168,7 @@ class _User3State extends State<User3> {
         height: MediaQuery.of(context).size.height*1.25,
         child: Scaffold(
           appBar: AppBar(
-            leading: Icon(Icons.person),
+            leading: Icon(Icons.person,size: 25,color: Colors.indigo),
             title: Text("Profile"),
           ),
           body: Center(
@@ -257,8 +249,8 @@ class _User3State extends State<User3> {
                     backgroundImage: _image != null
                         ? FileImage(_image!)
                         : (_profilepic.isNotEmpty
-                            ? CachedNetworkImageProvider(_profilepic, )
-                            : null) as ImageProvider?,
+                        ? CachedNetworkImageProvider(_profilepic, )
+                        : null) as ImageProvider?,
                     child: _image == null && _profilepic.isEmpty
                         ? Icon(Icons.person, size: 50, color: Colors.white70)
                         : null,
@@ -290,8 +282,7 @@ class _User3State extends State<User3> {
                                   Text("Update user info",
                                       style: TextStyle(
                                           color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          letterSpacing: 1)),
+                                          fontWeight: FontWeight.bold,letterSpacing: 1)),
                                 ],
                               ),
                               content: Container(
@@ -302,32 +293,23 @@ class _User3State extends State<User3> {
                                     SizedBox(height: 5),
                                     Align(
                                         alignment: Alignment.centerLeft,
-                                        child: Text("  Username",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 20,
-                                                letterSpacing: 1))),
+                                        child: Text("  Username",style: TextStyle(color: Colors.white,fontSize: 20,letterSpacing: 1))),
                                     SizedBox(height: 5),
                                     SizedBox(
                                       width: 350,
                                       child: TextField(
                                         controller: _usernameController,
-                                        style: TextStyle(
-                                            color: Colors.black, fontSize: 20),
+                                        style: TextStyle(color: Colors.black, fontSize: 20),
                                         decoration: InputDecoration(
-                                          prefixIcon: Icon(Icons.person,
-                                              color: Colors.purple),
+                                          prefixIcon: Icon(Icons.person, color: Colors.purple),
                                           hintText: "Username",
-                                          hintStyle: TextStyle(
-                                              color: Colors.black, fontSize: 20),
+                                          hintStyle: TextStyle(color: Colors.black, fontSize: 20),
                                           enabledBorder: OutlineInputBorder(
-                                            borderSide:
-                                                BorderSide(color: Colors.black12),
+                                            borderSide: BorderSide(color: Colors.black12),
                                             borderRadius: BorderRadius.circular(15),
                                           ),
                                           focusedBorder: OutlineInputBorder(
-                                            borderSide:
-                                                BorderSide(color: Colors.black12),
+                                            borderSide: BorderSide(color: Colors.black12),
                                             borderRadius: BorderRadius.circular(15),
                                           ),
                                           fillColor: Colors.white70,
@@ -339,33 +321,24 @@ class _User3State extends State<User3> {
                                     SizedBox(height: 15),
                                     Align(
                                         alignment: Alignment.centerLeft,
-                                        child: Text("  Phone",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 20,
-                                                letterSpacing: 1))),
+                                        child: Text("  Phone",style: TextStyle(color: Colors.white,fontSize: 20,letterSpacing: 1))),
                                     SizedBox(height: 5),
                                     SizedBox(
                                       width: 350,
                                       child: TextField(
                                         keyboardType: TextInputType.number,
                                         controller: _phoneController,
-                                        style: TextStyle(
-                                            color: Colors.black, fontSize: 20),
+                                        style: TextStyle(color: Colors.black, fontSize: 20),
                                         decoration: InputDecoration(
-                                          prefixIcon:
-                                              Icon(Icons.phone, color: Colors.blue),
+                                          prefixIcon: Icon(Icons.phone, color: Colors.blue),
                                           hintText: "Phone",
-                                          hintStyle: TextStyle(
-                                              color: Colors.black, fontSize: 20),
+                                          hintStyle: TextStyle(color: Colors.black, fontSize: 20),
                                           enabledBorder: OutlineInputBorder(
-                                            borderSide:
-                                                BorderSide(color: Colors.black12),
+                                            borderSide: BorderSide(color: Colors.black12),
                                             borderRadius: BorderRadius.circular(15),
                                           ),
                                           focusedBorder: OutlineInputBorder(
-                                            borderSide:
-                                                BorderSide(color: Colors.black12),
+                                            borderSide: BorderSide(color: Colors.black12),
                                             borderRadius: BorderRadius.circular(15),
                                           ),
                                           fillColor: Colors.white70,
@@ -375,7 +348,7 @@ class _User3State extends State<User3> {
                                         onSubmitted: (value) {
                                           _updateUserInfo();
                                           _getCurrentUser();
-                                        },
+                                        }
                                       ),
                                     ),
                                     SizedBox(height: 25),
@@ -397,13 +370,10 @@ class _User3State extends State<User3> {
                                         style: ButtonStyle(
                                           shape: MaterialStateProperty.all(
                                             RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
+                                              borderRadius: BorderRadius.circular(15),
                                             ),
                                           ),
-                                          backgroundColor:
-                                              MaterialStateProperty.all(
-                                                  Colors.blue.shade900),
+                                          backgroundColor: MaterialStateProperty.all(Colors.blue.shade900),
                                         ),
                                       ),
                                     ),
@@ -419,7 +389,7 @@ class _User3State extends State<User3> {
                         shape: MaterialStatePropertyAll(RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15))),
                         backgroundColor:
-                            MaterialStatePropertyAll(Colors.blue.shade900)),
+                        MaterialStatePropertyAll(Colors.blue.shade900)),
                   ),
                 ),
                 SizedBox(height: 25),
@@ -432,7 +402,7 @@ class _User3State extends State<User3> {
                         Text("Username: $_username",
                             style: TextStyle(color: Colors.white, fontSize: 20)),
                         SizedBox(height: 5),
-                        Text("Email: ${_currentUser?.email}",
+                        Text("Email: ${_currentUser!.email}",
                             style: TextStyle(color: Colors.white, fontSize: 20)),
                         SizedBox(height: 5),
                         Text("Phone: $_phone",
@@ -448,7 +418,7 @@ class _User3State extends State<User3> {
                   child: ElevatedButton(
                     style: ButtonStyle(
                         backgroundColor:
-                            MaterialStatePropertyAll(Colors.red.shade900),
+                        MaterialStatePropertyAll(Colors.red.shade900),
                         shape: MaterialStatePropertyAll(ContinuousRectangleBorder(
                             borderRadius: BorderRadius.circular(15)))),
                     onPressed: () {

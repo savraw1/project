@@ -28,7 +28,7 @@ class _Bot3State extends State<Bot3> {
       throw Exception("No user logged in");
     }
 
-    DocumentSnapshot data = await FirebaseFirestore.instance.collection("Users").doc(user.uid).get();
+    DocumentSnapshot data = await FirebaseFirestore.instance.collection("Users").doc(user.email).get();
     if (data.exists) {
       return {
         'documentId': user.uid,
@@ -46,7 +46,7 @@ class _Bot3State extends State<Bot3> {
       future: _userDataFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return Center(child: CircularProgressIndicator(color: Colors.blue.shade900));
         } else if (snapshot.hasError) {
           return Center(child: Text("Error: ${snapshot.error}"));
         } else if (snapshot.hasData) {
@@ -64,22 +64,19 @@ class _Bot3State extends State<Bot3> {
           return Scaffold(
             body: pages[select],
             bottomNavigationBar: BottomNavigationBar(
-              selectedFontSize: 18,
-              unselectedFontSize: 18,
-              backgroundColor: Colors.black,
               currentIndex: select,
-              type: BottomNavigationBarType.fixed,
-              selectedItemColor: Colors.indigo,
-              unselectedItemColor: Colors.grey,
               onTap: (value) {
                 setState(() {
                   select = value;
                 });
               },
               items: [
-                BottomNavigationBarItem(icon: Icon(Icons.home, size: 30), label: "Home"),
-                BottomNavigationBarItem(icon: Icon(Icons.shopping_cart, size: 30), label: "Cart"),
-                BottomNavigationBarItem(icon: Icon(Icons.account_circle_outlined, size: 30), label: "Profile"),
+                BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+                BottomNavigationBarItem(icon: Transform(
+                    alignment: Alignment.center,
+                    transform: Matrix4.rotationY(3.14),
+                    child: Icon(Icons.messenger_outline)), label: "Message"),
+                BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
               ],
             ),
           );
